@@ -1,4 +1,4 @@
-PyWork is a collection of tools for creating standardized Python projects suitable for upload to PyPI and GitHub.
+LiteWork is a collection of tools for creating standardized Python projects suitable for upload to PyPI and GitHub.
 
 Features
 ========
