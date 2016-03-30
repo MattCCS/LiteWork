@@ -1,3 +1,9 @@
+(next release)
+--------------
+- add documentation
+    - especially about ~/.bash_profile
+- remove/make optional Sublime integration
+
 0.1.0 (2016 March 30)
 ---------------------
 - changed changelog to .rst
