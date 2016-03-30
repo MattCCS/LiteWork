@@ -1,0 +1,3 @@
+VENVDIR=~/.venvs
+WORKDIR=~/work
+VENVLABEL="venv.txt"

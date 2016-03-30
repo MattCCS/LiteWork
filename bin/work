@@ -27,6 +27,14 @@ fi
 
 ########################################
 
+if [ ! -d $VENVDIR ]; then
+    echo "[!] Venv directory '$VENVDIR' does not exist!!!"
+    echo "[!] Please fix this manually!"
+    return
+fi
+
+########################################
+
 if [ $# -ne 0 ]; then
     echo "[-] Takes no arguments."
     return

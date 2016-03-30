@@ -27,6 +27,11 @@ fi
 
 ########################################
 
+if [ $# -eq 0 ]; then
+    ls $WORKDIR
+    return
+fi
+
 if [ $# -ne 1 ]; then
     echo "[-] Takes one (1) argument:"
     echo "    <name> = name of project to work on (in '$WORKDIR')"
