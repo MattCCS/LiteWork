@@ -11,8 +11,7 @@ Steps:
     - make README.rst
     - link README
     - make version.txt
-    - make CHANGES.txt
-    - make TODO.txt
+    - make CHANGES.rst
     - make LICENSE.txt
     - make MANIFEST.in
     - generate setup.py
@@ -113,8 +112,17 @@ include CHANGES.txt
 include LICENSE.txt
 include MANIFEST.in
 include README.rst
-include TODO.txt
 include VERSION.txt
+"""
+
+CHANGES = """\
+(next release)
+--------------
+- update auto-generated files
+
+{head1}
+{bar}
+- Initial release.
 """
 
 ########################################
@@ -177,21 +185,17 @@ def make(name, root):
 
     now = datetime.datetime.now()
 
-    with open("CHANGES.txt", 'w') as changes:
-        timestamp = now.strftime("%-m-%-d-%y")
-        changes.write("{}, {} -- {}".format("v0.0.1", timestamp, "Initial release."))
+    with open("CHANGES.rst", 'w') as changes:
+        timestamp = now.strftime("%Y $B %-d")
+        head1 = "0.0.1 ({})".format(timestamp)
+        bar = '-'*len(head1)
+        changes.write(CHANGES.format(head1=head1, bar=bar))
 
     # LICENSE.txt
     log("Making LICENSE.txt...")
     with open("LICENSE.txt", 'w') as license:
         year = now.strftime('%Y')
         license.write(LICENSE.format(year=year))
-
-    # TODO.txt
-    log("Making TODO.txt...")
-    with open("TODO.txt", 'w') as todo:
-        todo.write("- update auto-generated files")
-
 
     # MANIFEST.in
     log("Making MANIFEST.in...")
