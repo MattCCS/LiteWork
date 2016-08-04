@@ -1,0 +1,47 @@
+interpreter=`ps -p $$ | grep $$ | awk '{ print $4 }'`
+
+if [[ $interpreter == *bash ]]; then
+    echo "[+] Detected bash."
+    if [[ "${BASH_SOURCE[0]}" != "${0}" ]]; then  # http://stackoverflow.com/questions/2683279/how-to-detect-if-a-script-is-being-sourced
+        echo "[+] bash sourced!"
+    else
+        echo "[-] You must source this script to run it."
+        exit
+    fi
+elif [[ $interpreter == *zsh ]]; then
+    echo "[+] Detected zsh."
+    if [[ $ZSH_EVAL_CONTEXT =~ :file$ ]]; then  # http://stackoverflow.com/questions/2683279/how-to-detect-if-a-script-is-being-sourced
+        echo "[+] zsh sourced!"
+    else
+        echo "[-] You must source this script to run it."
+        exit
+    fi
+elif [[ $interpreter == *ksh ]]; then
+    echo "[-] Detected ksh.  Please source this script with bash."
+    return
+elif [[ $interpreter == sh ]] || [[ $interpreter == -sh ]]; then
+    echo "[!] Detected sh.  Some bash features may be misbehave."
+    if [[ "${BASH_SOURCE[0]}" != "${0}" ]]; then
+        echo "[+] sh sourced!"
+    else
+        echo "[-] You must source this script to run it."
+        exit
+    fi
+else
+    echo "[-] Detected unrecognized shell '$interpreter'.  Please source this script with bash."
+    return
+fi
+
+# this sources properly and can cd, AND IS LIVE (if we flush stdout)
+# (we could also use stderr but that's hacky)
+# FAILED=0
+while read -r line; do  # http://unix.stackexchange.com/questions/52026/bash-how-to-read-one-line-at-a-time-from-output-of-a-command
+    # command $line || { echo "[!] Command failed!  Exiting..."; FAILED=1; break; }  # http://unix.stackexchange.com/questions/213110/exiting-a-shell-script-with-nested-loops
+    command $line || break  # http://unix.stackexchange.com/questions/7558/execute-a-command-once-per-line-of-piped-input
+done < <(./test.py)  # process substitution! hnnnnng
+
+# if [[ FAILED -ne 0 ]]; then
+#     echo "Failed!"
+# else
+#     echo "Success."
+# fi

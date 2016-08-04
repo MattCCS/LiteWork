@@ -1,0 +1,15 @@
+# ps -p $$
+interpreter=`ps -p $$ | grep $$ | awk '{ print $4 }'`
+
+# echo $interpreter
+
+if [[ $interpreter == *bash ]]; then
+    echo 'Using bash!'
+elif [[ $interpreter == *zsh ]]; then
+    echo 'Using zsh!'
+elif [[ $interpreter == *sh ]]; then
+    echo 'Using sh!'
+else
+    echo "(Other, can't handle!)"
+    exit
+fi
